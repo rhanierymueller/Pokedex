@@ -1,9 +1,10 @@
 "use client"
 
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
+import { Avatar, Box, Button, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import './MainPage.css';
+import './page.css';
+import { useRouter } from "next/navigation";
 
 interface Pokemon {
   name: string;
@@ -12,6 +13,7 @@ interface Pokemon {
 
 function MainPage() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([])
+  const router = useRouter()
 
   useEffect(() => {
     const getPokemons = async () => {
@@ -23,7 +25,8 @@ function MainPage() {
   }, [])
 
   return (
-    <main className="container">
+    <Box className="container">
+      <Typography variant="h4">Pokemons</Typography>
       <List className="list">
         {pokemons.map((pokemon: Pokemon, index: number) => (
           <ListItem key={pokemon.name} className="pokemonItem">
@@ -31,10 +34,11 @@ function MainPage() {
               <Avatar alt={pokemon.name} sx={{width: 100, height: 80}} src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
             </ListItemAvatar>
             <ListItemText>{pokemon.name}</ListItemText>
+           <Button sx={{color: '#fff'}}  onClick={() => router.push(`/detalhes/${pokemon.name}`)}>Ver</Button>
          </ListItem>
         ))}
       </List>
-      </main>
+    </Box>
   );
 }
 
